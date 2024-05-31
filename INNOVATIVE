@@ -1,0 +1,50 @@
+#!/bin/tcsh
+
+CS="java -classpath /Applications/CS_2.003.04.jar csearch/CorpusSearch"
+Q="/Users/evansell/Documents/DiGS_Lightning/innovative"
+
+for file in $Q/*.psd
+
+do 
+	BASE=`basename $file .psd`
+	echo "renaming NP with ADJ as A-NP in file called $BASE"
+ 	$CS $Q/renameNP.q $BASE.psd >& ERR
+  	mv -f $BASE.psd.out $BASE.trans
+
+done
+
+$CS adj.c *.trans
+
+sed -i '' 's/:/~/g' adj.cod
+
+
+for file in $Q/*.cod
+
+do 
+	BASE=`basename $file .cod`
+	echo "removing ADJP and concatenating NP daughters in file called $BASE"
+
+	echo "running e1phrase.q to remove phrasal wrappers"
+ 	$CS $Q/e1phrase.q $BASE.cod >& ERR
+  	mv -f $BASE.cod.out $BASE.cod
+
+	echo "running e2conc.q to concatenate NP daughters"
+ 	$CS $Q/e2conc.q $BASE.cod >& ERR
+  	mv -f $BASE.cod.out $BASE.cod
+
+done
+
+sed -i '' 's/~sg:/~sg~/g' adj.cod
+sed -i '' 's/~pl:/~pl~/g' adj.cod
+sed -i '' 's/:/%/g' adj.cod
+sed -i '' 's/@/%/g' adj.cod
+
+$CS print.q adj.cod
+
+cp adj.cod.ooo adjdata.txt
+
+sed -i '' '/^irrel/d' adjdata.txt
+
+sed -i '' 's/@/~/g' adjdata.txt
+sed -i '' 's/%%%/+/g' adjdata.txt
+sed -i '' 's/%/ /g' adjdata.txt
