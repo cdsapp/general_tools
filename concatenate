@@ -1,8 +1,11 @@
 #!/bin/tcsh
 
+# first, ensure that you have CorpusSearch installed and 
+# that these two aliases match the filepaths where CS and your files are saved
 CS="java -classpath /Applications/CS_2.003.04.jar csearch/CorpusSearch"
 Q="/Users/evansell/Documents/DiGS_Lightning/innovative"
 
+# preprocessing: renames the relevant NPs in all .psd files, saving the result as .trans fils
 for file in $Q/*.psd
 
 do 
@@ -13,11 +16,13 @@ do
 
 done
 
+# executes a coding query on all .trans files
 $CS adj.c *.trans
 
+# replaces the delimiter ':' with a new delimiter '~'
 sed -i '' 's/:/~/g' adj.cod
 
-
+# concatenates the leaves (i.e. the words themselves) onto the coding string
 for file in $Q/*.cod
 
 do 
@@ -34,17 +39,23 @@ do
 
 done
 
+# post-processing: converts ':' between the last factor and the string of leaves to '~' and 
+# converts any other delimiters (i.e. between leaves) to '%'
 sed -i '' 's/~sg:/~sg~/g' adj.cod
 sed -i '' 's/~pl:/~pl~/g' adj.cod
 sed -i '' 's/:/%/g' adj.cod
 sed -i '' 's/@/%/g' adj.cod
 
+# prints the coding strings, including leaves
 $CS print.q adj.cod
 
+# renames the output as a .txt (for easy importing into Excel or R)
 cp adj.cod.ooo adjdata.txt
 
+# removes irrelevant coding strings (non-hits)
 sed -i '' '/^irrel/d' adjdata.txt
 
+# ensures that '~' is the delimiter between factors, but words/leaves are only separated by a space
 sed -i '' 's/@/~/g' adjdata.txt
 sed -i '' 's/%%%/+/g' adjdata.txt
 sed -i '' 's/%/ /g' adjdata.txt
