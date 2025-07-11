@@ -5,7 +5,9 @@
 CS="java -classpath /Applications/CS_2.003.04.jar csearch/CorpusSearch"
 Q="/Users/evansell/Documents/DiGS_Lightning/innovative"
 
-# preprocessing: renames the relevant NPs in all .psd files, saving the result as .trans fils
+# preprocessing: renames the relevant NPs in all .psd files, saving the result as .trans file; 
+  # this step is necessary for the sample query, so that the search node looks only at relevant NPs.
+
 for file in $Q/*.psd
 
 do 
@@ -16,7 +18,7 @@ do
 
 done
 
-# executes a coding query on all .trans files
+# executes a coding query on all .trans files; replace this sample with your own coding query
 $CS adj.c *.trans
 
 # replaces the delimiter ':' with a new delimiter '~'
