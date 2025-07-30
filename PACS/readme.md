@@ -1,5 +1,6 @@
 # PACS (Portable Accessories for CorpusSearch)
 ## A browser-based graphical interface for running CorpusSearch 2 queries on Penn-style parsed corpora. 
+<img width="72" height="54" alt="a dove with the letters PACS" src="https://github.com/user-attachments/assets/f9516edd-adbe-4406-90f2-f967bb52fdf0" />
 
 ### PACS adds the following features to CorpusSearch 2:
 
