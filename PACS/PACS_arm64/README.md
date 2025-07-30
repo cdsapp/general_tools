@@ -1,6 +1,6 @@
 # PACS (Portable Accessories for CorpusSearch)
 ## (packaged version for Macs with arm64 architecture)
-Note: As packaged here, PACS will work only on macos arm64. To determine if your Mac has this architecture, open Terminal and enter uname -m. It will display either arm64 or x64. If you are not arm64, use the unpackaged version of PACS.
+Note: As packaged here, PACS will work only on macos arm64. To determine if your Mac has this architecture, open Terminal and enter `uname -m` . It will display either arm64 or x64. If you are not arm64, use the unpackaged version of PACS.
 
 ## A browser-based graphical interface for running CorpusSearch 2 queries on Penn-style parsed corpora. 
 
