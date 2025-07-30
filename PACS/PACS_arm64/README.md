@@ -1,4 +1,7 @@
 # PACS (Portable Accessories for CorpusSearch)
+## (packaged version for Macs with arm64 architecture)
+Note: As packaged here, PACS will work only on macos arm64. To determine if your Mac has this architecture, open Terminal and enter uname -m. It will display either arm64 or x64. If you are not arm64, use the unpackaged version of PACS.
+
 ## A browser-based graphical interface for running CorpusSearch 2 queries on Penn-style parsed corpora. 
 
 PACS adds the following features to CorpusSearch 2:
@@ -7,9 +10,6 @@ PACS adds the following features to CorpusSearch 2:
 - before the SUMMARY, every hit is repeated only the queried nodes
 - texts in the SUMMARY with hits are highlighted yellow 
 - a window in PACS can strip lemmata from results sentences (f. below)
-
-
-Note: As packaged, PACS will work only on macos arm64. To determine if your Mac has this architecture, open Terminal and enter uname -m. It will display either arm64 or x64.
 
 ### 1.	Prerequisites
 a. Install CorpusSearch2 (CS2) https://corpussearch.sourceforge.net/CS.html
