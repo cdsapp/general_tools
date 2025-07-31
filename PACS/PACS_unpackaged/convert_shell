@@ -1,0 +1,30 @@
+cd "$TMPDIR"
+
+rm sentenceout.txt
+
+sed 's/$/ /' sentence1.tmp > sentence2.tmp
+mv -f sentence2.tmp sentence1.tmp
+
+tr -d '\n' < sentence1.tmp > sentence2.tmp
+mv -f sentence2.tmp sentence1.tmp
+
+tr -d '\r' < sentence1.tmp > sentence2.tmp
+mv -f sentence2.tmp sentence1.tmp
+
+# For IPCHG, use "=". For IcePaHC, use "-".
+sed 's/=[^ ]* / /g' sentence1.tmp > sentence2.tmp
+mv -f sentence2.tmp sentence1.tmp
+
+sed 's/<//g' sentence1.tmp > sentence2.tmp
+mv -f sentence2.tmp sentence1.tmp
+
+sed 's/>//g' sentence1.tmp > sentence2.tmp
+mv -f sentence2.tmp sentence1.tmp
+
+sed 's/ \.//g' sentence1.tmp > sentence2.tmp
+mv -f sentence2.tmp sentence1.tmp
+
+sed 's/ ,//g' sentence1.tmp > sentence2.tmp
+mv -f sentence2.tmp sentence1.tmp
+
+cp sentence1.tmp sentenceout.txt

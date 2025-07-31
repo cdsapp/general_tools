@@ -1,0 +1,3 @@
+echo "Launching PACS in browser"
+
+open -a "Google Chrome" http://localhost:3001/

@@ -1,0 +1,7 @@
+rm "cs.html"
+
+cd "$APPDIR"
+
+bash search
+
+cp "cs.html" "$TMPDIR/cs.html"
