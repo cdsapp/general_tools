@@ -22,7 +22,23 @@ a. Copying the Files
    - In that folder, create a folder called "corpus" and copy the files of the Penn-style corpus you wish to search into the corpus folder.
    - If your corpus files are not .txt (likely .psd), open the file "search" in TextEdit. Locate this line and change .txt at the end to match the file types of your corpus: `java -classpath /Applications/CS_2.003.04.jar csearch/CorpusSearch cs.q *.txt`
 
-b. Create an Automator .app (Read step 8 first!) 
+b. Download and install Node.js: https://nodejs.org/en/download
+
+c. In Terminal, navigate to the unpackaged folder. Check the installation by entering these two lines in Terminal. You should see a version number for each. 
+
+   `node -v` 
+	
+ `npm -v`
+
+d. Enter this in Terminal: `npm init -y` (Open the package.json with TextEdit. The important thing is that the architecture type under "targets" matches your computer and that the stuff at the top is PACS or PACS.js and not something like server.js.)
+
+e. Install Express by entering: `npm install express`
+
+f. Install Package by entering: `npm install -g pkg`
+
+g. Package the scripts by entering: `pkg .`
+
+h. Create an Automator .app (Read step 8 first!) 
    1. Open Automator. (You can do this from Launchpad by typing “Automator”. Its icon appears to be a robot holding a pipe.)
    2. Under “Choose a type for your document”, select “Application”.
    3. In the long list in the second column, find “Run Shell Script”.
