@@ -1,6 +1,6 @@
 # PACS (Portable Accessories for CorpusSearch)
 ## (unpackaged version)
-Note: This is the unpackaged version, which has been tested on Macs with x64 architecture. If you have arm64, you may wish to try the packaged version instead.
+Note: This is the unpackaged version, which is being tested on Macs with x64 architecture and on a PC running Linux Mint. If you have Mac arm64, you may wish to try the packaged version instead.
 
 ## A browser-based graphical interface for running CorpusSearch 2 queries on Penn-style parsed corpora. 
 
@@ -18,8 +18,8 @@ a. Install CorpusSearch2 (CS2) https://corpussearch.sourceforge.net/CS.html
 ### 2.	Getting Started  
 
 a. Copying the Files
-   - Copy the PACS folder onto your local machine (click "<> Code", then "Download ZIP", then move the PACS folder to a convenient location).
-   - Copy the files of the Penn-style corpus you wish to search into the corpus folder inside the PACS folder.
+   - Copy the PACS_unpackaged folder onto your local machine (click "<> Code", then "Download ZIP", then move the PACS_unpackaged folder to a convenient location).
+   - In that folder, create a folder called "corpus" and copy the files of the Penn-style corpus you wish to search into the corpus folder.
    - If your corpus files are not .txt (likely .psd), open the file "search" in TextEdit. Locate this line and change .txt at the end to match the file types of your corpus: `java -classpath /Applications/CS_2.003.04.jar csearch/CorpusSearch cs.q *.txt`
 
 b. Create an Automator .app (Read step 8 first!) 
