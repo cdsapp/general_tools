@@ -1,0 +1,19 @@
+echo "Removing files for packaging"
+rm cs.html
+rm cs.1.html
+rm cs.list
+rm cs.list.1
+rm cs.1.q
+rm cs.out
+rm cs.out.1
+rm cs.q
+rm sentence1.tmp
+rm sentence2.tmp
+rm sentenceout.txt
+echo "Creating blank files for packaging"
+touch cs.html
+touch cs.q
+touch sentence1.tmp
+touch sentence2.tmp
+touch sentenceout.txt
+echo "Ready for packaging (Enter: pkg .)"

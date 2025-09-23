@@ -1,0 +1,171 @@
+<html>
+<head>
+	<title>PACS</title>
+	<link rel="icon" href="icon.png" type="image/png">
+<style>
+* {
+	box-sizing: border-box;
+}
+
+.column1 {
+	float: left;
+	width: 75%;
+	padding: 10px;
+}
+
+.column2 {
+	float: left;
+	width: 20%;
+	padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+</style>
+</head>
+<body onload="startup()">
+
+
+
+<div class="row">
+	<div class="column1">
+		<iframe id="cs2_out" width="100%" height="98%"> </iframe>
+	</div>
+	<div class="column2">
+		<textarea id="cs_in" rows="10" cols="38">query: ({1}[1])</textarea>
+		<br><button id="q_save_and_run" onClick="search()">Search</button>
+		<button id="download_sentence" onClick="download()">Download</button>
+		<br>
+		<textarea id="sentence_in" rows="10" cols="38">Input sentence from CS2 here.</textarea>
+		<br>
+		<button id="show_sentence" onClick="show()">Show(=)↓</button>
+		<button id="show_sentence" onClick="show_hyphen()">Show(-)↓</button>
+		<br>
+		<iframe id="sentence_out" width="130%" height="36%"> </iframe>
+		<br>
+		<p>Message Center:</p>
+		<p style="display: inline-block; margin: 0 10px;" id="result"></p>
+		<br><br><img width="75px" id="icon" src="icon.png">
+		<button style="color: red" onClick="exit()">Exit</button>
+	</div>
+</div>
+<script>
+
+function startup() {
+	data = "Page loaded";
+	document.getElementById('result').innerText = data;
+}
+
+function download() {
+//	const text0 = 'go'
+//	const blob0 = new Blob([text0], { type: 'text/plain' });
+//	const link0 = document.createElement('a');
+//	link0.download = 'cs_save.tmp';
+//	link0.href = window.URL.createObjectURL(blob0);
+//	document.body.appendChild(link0);
+//	link0.click();
+//	document.body.removeChild(link0);
+
+	fetch('/download', {
+		method: 'POST',
+	})
+	.then(res => res.text())
+	.then(data => {
+		document.getElementById('result').innerText = data;
+	})
+}
+
+function search() {
+//	const content1 = document.getElementById('cs_in').value;
+//	const blob1 = new Blob([content1], { type: 'text/plain' });
+//	const link1 = document.createElement('a');
+//	link1.href = URL.createObjectURL(blob1);
+//	link1.download = 'cs_in.tmp';
+//	document.body.appendChild(link1);
+//	link1.click();
+//	document.body.removeChild(link1);
+	const q_file = document.getElementById('cs_in').value;
+	fetch('/search', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'text/plain'
+		},
+		body: q_file
+	})
+	.then (res => res.text())
+	.then(data => {
+		document.getElementById('result').innerText = data;
+		var iframe=document.getElementById("cs2_out");
+		iframe.src = "cs.html";
+	})
+	.catch(err => console.error('Error:', err));
+}
+
+//function cs_show() {
+//	var iframe=document.getElementById("cs2_out");
+//	iframe.src = "/Users/evansell/Desktop/dummyqueries/cs.html";
+//}
+
+//function run_sentence() {
+//	const content1 = document.getElementById('sentence_in').value;
+//	const blob1 = new Blob([content1], { type: 'text/plain' });
+//	const link1 = document.createElement('a');
+//	link1.href = URL.createObjectURL(blob1);
+//	link1.download = 'run_r_sentence.tmp';
+//	document.body.appendChild(link1);
+//	link1.click();
+//	document.body.removeChild(link1);
+//}
+
+function show() {
+	const show = document.getElementById('sentence_in').value;
+	fetch('/convert', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'text/plain'
+		},
+		body: show
+	})
+	.then (res => res.text())
+	.then(data => {
+		document.getElementById('result').innerText = data;
+		var iframe=document.getElementById("sentence_out");
+		iframe.src = "sentenceout.txt";
+	})
+	.catch(err => console.error('Error:', err));
+}
+
+function show_hyphen() {
+	const show = document.getElementById('sentence_in').value;
+	fetch('/convert_hyphen', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'text/plain'
+		},
+		body: show
+	})
+	.then (res => res.text())
+	.then(data => {
+		document.getElementById('result').innerText = data;
+		var iframe=document.getElementById("sentence_out");
+		iframe.src = "sentenceout.txt";
+	})
+	.catch(err => console.error('Error:', err));
+}
+
+function exit() {
+	fetch('/quit_exit', {
+		method: 'POST',
+	})
+	.then(res => res.text())
+	.then(data => {
+		document.getElementById('result').innerText = data;
+	})
+}
+</script>
+</body>
+</html>

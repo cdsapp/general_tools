@@ -1,0 +1,218 @@
+rm cs.html
+
+sed '1s/^/\n\n/' cs.q > cs.1.q
+mv -f cs.1.q cs.q
+
+sed '1s/^/copy_corpus: f/' cs.q > cs.1.q
+mv -f cs.1.q cs.q
+
+sed '1s/^/\n/' cs.q > cs.1.q
+mv -f cs.1.q cs.q
+
+if ! grep -q "^node:" "cs.q"; then
+	sed '1s/^/node: $ROOT/' cs.q > cs.1.q
+	mv -f cs.1.q cs.q
+fi
+
+# This finds the largest {number}
+largest=$(grep -o '{[0-9]*}' cs.q| sed 's/[{}]//g' | sort -n | tail -n 1)
+
+PL='prepend_label{'
+PM='}: <font color="'
+PR='">'
+AL='append_label{'
+AR='}: </font>'
+echo "searching for {number}"
+if grep -q '{[0-9]}' cs.q; then
+	echo "largest number is $largest"
+	echo "" >> cs.q
+	echo "" >> cs.q
+	for ((i=1; i<=$largest; i++)); do
+		if [ "$i" -gt 9 ]; then
+			color="red"
+		else
+			color=$(sed -n "${i}p" colors.list | tr -d '\n')
+		fi
+		PA=$PL$i$PM$color$PR
+		AA=$AL$i$AR
+		echo $PA >> cs.q
+		echo $AA >> cs.q
+	done
+fi
+
+echo "~~~running query"
+# Now run the .q query
+java -classpath /Applications/CS_2.003.04.jar csearch/CorpusSearch cs.q corpus/*
+
+# Make list of hits in cs.out to append to cs.html
+cp cs.out cs.list
+
+tr -d '\n' < cs.list > cs.list.1
+mv -f cs.list.1 cs.list
+#*~//*
+sed 's#*~//*#*~/ADDNEWLINEHERE/*#g' cs.list > cs.list.1
+mv -f cs.list.1 cs.list
+
+sed 's/ADDNEWLINEHERE/\n/g' cs.list > cs.list.1
+mv -f cs.list.1 cs.list
+#*/(
+sed 's#*/(#*/\n(#g' cs.list > cs.list.1
+mv -f cs.list.1 cs.list
+
+sed '/^\/\*\*/!d' cs.list > cs.list.1
+mv -f cs.list.1 cs.list
+
+sed 's/  /~/g' cs.list > cs.list.1
+mv -f cs.list.1 cs.list
+
+sed 's/**[^~]*~//g' cs.list > cs.list.1
+mv -f cs.list.1 cs.list
+
+sed 's/ /	/' cs.list > cs.list.1
+mv -f cs.list.1 cs.list
+
+# cat "cs.list" >> "cs.out"
+
+sed 's/SUMMARY:/PLACEHOLDER/' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+echo "SUMMARY:" >> cs.list
+
+sed '/PLACEHOLDER/r cs.list' cs.out > cs.out.1
+mv -f cs.out.1 cs.out
+
+sed 's/PLACEHOLDER//' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+# Highlight hits in the summary
+
+sed 's#1/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#2/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#3/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#4/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#5/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#6/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#7/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#8/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#9/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#10/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#20/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#30/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#40/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#50/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#60/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#70/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#80/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#90/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out
+
+sed 's#100/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#200/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#300/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#400/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#500/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#600/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#700/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#800/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed 's#900/#ħɪɠħɭɪɠħʈ&#g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out
+
+sed '/ħɪɠħɭɪɠħʈ/ s/^/<mark>/' cs.out > cs.out.1
+mv -f cs.out.1 cs.out	
+
+sed '/ħɪɠħɭɪɠħʈ/ s/$/<\/mark>/' cs.out > cs.out.1
+mv -f cs.out.1 cs.out
+
+sed 's/ħɪɠħɭɪɠħʈ//g' cs.out > cs.out.1
+mv -f cs.out.1 cs.out
+
+# And convert cs.out into cs.html
+mv -f cs.out cs.html
+
+sed 's/<s>/(s)/g' cs.html > cs.1.html
+mv -f cs.1.html cs.html
+
+sed 's/<u>/(u)/g' cs.html > cs.1.html
+mv -f cs.1.html cs.html
+
+sed 's/<i>/(i)/g' cs.html > cs.1.html
+mv -f cs.1.html cs.html
+
+sed 's/<eN>/(eN)/g' cs.html > cs.1.html
+mv -f cs.1.html cs.html
+
+sed 's/<N>/(N)/g' cs.html > cs.1.html
+mv -f cs.1.html cs.html
+
+sed 's/<unknown>/(unknown)/g' cs.html > cs.1.html
+mv -f cs.1.html cs.html
+
+sed 's/<em>/(em)/g' cs.html > cs.1.html
+mv -f cs.1.html cs.html
+
+sed 's/<m>/(m)/g' cs.html > cs.1.html
+mv -f cs.1.html cs.html
+
+sed 's/<e>/(e)/g' cs.html > cs.1.html
+mv -f cs.1.html cs.html
+
+sed 's/<S>/(S)/g' cs.html > cs.1.html
+mv -f cs.1.html cs.html
+
+sed '1s/^/<pre> /' cs.html > cs.1.html
+mv -f cs.1.html cs.html
+
+echo '</pre>' >> cs.html
+
+echo "~~~query completed!"
+echo "Press control+z to exit"

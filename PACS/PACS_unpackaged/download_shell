@@ -1,0 +1,14 @@
+cd "$APPDIR"
+
+for ((j=1; j<=50; j++)); do
+	filebase="cs_saved"
+	fileext=".html"
+	filename=$filebase$j$fileext
+	if [ -f "$filename" ]; then
+		echo "$filename already exists"
+	else
+		echo "saving output as $filename"
+		cp "cs.html" "$APPDIR/$filename"
+		break
+	fi
+done
