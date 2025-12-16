@@ -10,8 +10,9 @@
 - texts in the SUMMARY with hits are highlighted yellow 
 - a window in PACS can strip lemmata from results sentences 
 
-### PACS currently exists in two versions: 
-- PACS_unpackaged should work on a variety of machines (has been tested on Macs with x64 architecture)
+### PACS currently exists in three versions: 
 - PACS_arm64 is a package that runs on Macs with arm64.
+- PACS_unpackaged should work on a variety of machines, but is difficult to install 
+- PACS_lite requires a bit more clicking to operate, but should work on a variety of machines (has been tested on Macs with x64 architecture)
 
 To determine your architecture, open Terminal and enter `uname -m` 
