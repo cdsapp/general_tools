@@ -52,7 +52,7 @@ a.	Double-click PACS_lite.app. This opens query.txt in TextEdit and runs a scrip
 
     1.	To color-code your results, add e.g. {1}. Note that curly brackets precede square brackets, hence the reminder in the default text.
    
-    2.	For example, this query will show all dative direct objects:
+    2.	For example, this query will show all dative adjectives inside direct objects:
    
       `query: ({1}NP-OB1 idoms {2}ADJ^D*)`
 
