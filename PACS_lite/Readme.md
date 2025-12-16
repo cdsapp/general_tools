@@ -13,33 +13,34 @@
 ###	Prerequisites
 a.	CorpusSearch2 (CS2) https://corpussearch.sourceforge.net/CS.html
 
-i.	CS2 requires Java.
+ -	CS2 requires Java.
 
 ### Getting Started
 a.	Copying the Files
 
-i.	Copy the PACS_lite folder onto your local machine.
+ -	Copy the PACS_lite folder onto your local machine.
 
-ii.	Copy the files of the corpus you wish to search into the corpus folder inside the PACS folder.
+ -	Copy the files of the corpus you wish to search into the corpus folder inside the PACS folder.
 
 b.	Specify the directory in PACS_lite.app
 
-i.	Open Automator and click Open an Existing Document…
+ -	Open Automator and click Open an Existing Document…
 
-ii.	Select PACS_lite.app
+ -	Select PACS_lite.app
 
-iii.	Change the directory (highlighted in this image) to your directory:
+ - Change the directory (highlighted in this image) to your directory:
  
-iv.	Save and close Automator.
+ -	Save and close Automator.
 
-v.	Note that if you move the PACS_lite folder, you will need to repeat these steps.
+ -	Note that if you move the PACS_lite folder, you will need to repeat these steps.
 
 c.	Specify the file extensions to search
 
-i.	Open the files folder and open the file search in TextEdit. Locate this line and change .txt (highlighted in this image) at the end to match the file types of your corpus (likely either .txt or .psd):
+ -	Open the files folder and open the file search in TextEdit. Locate this line and change .txt (highlighted in this image) at the end to match the file types of your corpus (likely either .txt or .psd):
+   
 <img width="339" height="130" alt="image" src="https://github.com/user-attachments/assets/9a4c4654-b7b7-475f-b3e1-f72c52e0fe5d" />
  
-ii.	Save and close search
+ -	Save and close search
 
 ###	Running PACS_lite
 a.	Double-click PACS_lite.app. This opens query.txt in TextEdit and runs a script in Terminal.
@@ -50,15 +51,15 @@ i.	Enter your query into query.txt.
    
 2.	For example, this query will show all dative direct objects:
    
-query: ({1}NP-OB1 idoms {2}ADJ^D*)
+`query: ({1}NP-OB1 idoms {2}ADJ^D*)`
 
 3.	To color-code a leaf, add e.g. 3leaf at the end of the query:
    
-query: ({1}NP-OB1 idoms {2}ADJ^D*)
+`query: ({1}NP-OB1 idoms {2}ADJ^D*)`
 
-AND (ADJ^D* idoms {3}.*)
+`AND (ADJ^D* idoms {3}.*)`
 
-3leaf
+`3leaf`
 
 ii.	Save and close TextEdit.
 
