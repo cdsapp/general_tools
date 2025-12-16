@@ -75,7 +75,7 @@ b.	This opens PACS_lite.html in Google Chrome.
 
  - 	The top-right frame contains the query for reference.
 
- - 	To create an unlemmatized copy of a result, first copy the prose sentence into the middle-right box, then click the “Show” button. In the small box beside the button, you can change how lemmata are indicated. (Icepac lemmatizes with “-”; Ipchg lemmatizes with “=”.) The unlemmatized copy displays in the bottom-right frame.
+ - 	To create an unlemmatized copy of a result, first copy the prose sentence into the middle-right box, then click the “Show” button. In the small box beside the button, you can change how lemmata are indicated. (IcePaHC lemmatizes with “-”; IPCHG lemmatizes with “=”.) The unlemmatized copy displays in the bottom-right frame.
 
 c.	To run another query, double-click PACS_lite.app again and repeat the process. (If you've left your previous query.txt open, you can edit that, and hit "save anyway" before pressing enter in Terminal.)
 
