@@ -1,0 +1,18 @@
+</pre></body><script>
+function checker() {
+	console.log("starting checker");
+	$('span').each(function() {
+		var newtext = $(this).text();
+		const checktext = newtext;
+		if (newtext.endsWith(" )")) {
+			newtext = newtext.replace(" )", "");
+			newtext = newtext.replace("(", "");
+		}
+		if (newtext != checktext) {
+			console.log("changing [" + checktext);
+			$(this).text(newtext);
+			console.log("to [" + newtext);
+		}
+	});
+}
+</script>

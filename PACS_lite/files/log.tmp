@@ -1,0 +1,17 @@
+Starting log
+Tue Dec 16 10:35:59 EST 2025
+ is largest
+
+copy_corpus: f
+
+node: NP-OB1
+nodes_only: t
+
+query: (NP-OB1 idoms ADJ^D*)
+~~~running query
+Tue Dec 16 10:35:59 EST 2025
+done
+Tue Dec 16 10:35:59 EST 2025
+converting cs.out to cs.html
+pre-tag added to cs.html
+Query completed

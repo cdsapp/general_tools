@@ -1,0 +1,7 @@
+rm query.txt
+echo "PACS_query opened"
+cp query.source query.txt
+open -a TextEdit query.txt
+open -a Terminal
+read -p "Save and close query.txt, then press Return to run (or control+z to exit)." dummyenter
+bash search

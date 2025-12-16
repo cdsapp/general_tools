@@ -1,0 +1,7 @@
+
+copy_corpus: f
+
+node: NP-OB1
+nodes_only: t
+
+query: (NP-OB1 idoms ADJ^D*)

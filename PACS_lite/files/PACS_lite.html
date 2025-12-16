@@ -1,0 +1,78 @@
+<html>
+<head>
+	<title>PACS lite</title>
+	<link rel="icon" href="icon.png" type="image/png">
+<style>
+* {
+	box-sizing: border-box;
+}
+
+.column1 {
+	float: left;
+	width: 75%;
+	padding: 10px;
+}
+
+.column2 {
+	float: left;
+	width: 20%;
+	padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+</style>
+</head>
+<body onload="openLoad()">
+
+<div class="row">
+	<div class="column1">
+		<iframe id="cs2_out" width="100%" height="98%"> </iframe>
+	</div>
+	<div class="column2">
+		<iframe id="query" width="130%" height="30%"> </iframe>
+		<br>
+		<br>
+		<textarea id="sentence_in" rows="10" cols="55">Input sentence from CS2 here.</textarea>
+		<br>
+		<button id="show_sentence" onClick="show()">Show↓</button>
+		<textarea id="divSymbol" rows="1" cols="2">=</textarea>
+		<br>
+		<iframe id="sentence_out" width="130%" height="30%"> </iframe>
+		<br>
+		<br><br><img width="75px" id="icon" src="icon.png">
+	</div>
+</div>
+</body>
+<script>
+
+function openLoad() {
+	console.log("First Opened");
+	document.getElementById("query").src="query.txt";
+	document.getElementById("cs2_out").src="cs.html";
+}
+
+function show() {
+	var divider = document.getElementById("divSymbol").value;
+	divider = new RegExp(divider + ".*");
+	var sentence = document.getElementById("sentence_in").value;
+	sentence = sentence.replaceAll(/\n/g," ");
+	sentenceArray = sentence.split(" ");
+	for (let i = 0; i < sentenceArray.length; i++) {
+		sentenceArray[i] = sentenceArray[i].replace(divider,"");
+		sentenceArray[i] = sentenceArray[i] + " ";
+    	}
+	var sentenceOut = "";
+	for (let i = 0; i < sentenceArray.length; i++) {
+		sentenceOut = sentenceOut + sentenceArray[i];
+	}
+	sentenceOut = sentenceOut.replaceAll("PARENL", "(");
+	sentenceOut = sentenceOut.replaceAll("PARENR", ")");
+	document.getElementById("sentence_out").srcdoc = sentenceOut;
+}
+</script>
+</html>
