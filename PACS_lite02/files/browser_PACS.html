@@ -1,0 +1,298 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>PACS lite</title>
+	<link rel="icon" href="icon.png" type="image/png">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+.window {
+	display: none;
+	position: fixed;
+	width: 50%;
+	height: 50%;
+	left: 25%;
+	top: 25%;
+	border: 1px solid black;
+	background-color: white;
+}
+* {
+	box-sizing: border-box;
+}
+
+.column1 {
+	float: left;
+	width: 75%;
+	padding: 10px;
+}
+
+.column2 {
+	float: left;
+	width: 25%;
+	padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+</style>
+</head>
+<body onload="start()">
+
+<div class="row">
+	<div class="column1">
+		<b>Results:</b>
+		<iframe id="cs2_out" width="100%" height="95%"> </iframe>
+	</div>
+	<div class="column2">
+		<b>Query:</b>
+		<textarea id="query" style="width:100%; height:30%;">node: $ROOT
+copy_corpus: f
+
+query: ({1}[1]IP-MAT idoms {2}CP-QUE-SUB)
+AND (CP-QUE-SUB idoms {3}WADVP*)</textarea>
+		<br>
+		<button id="search">Search</button>
+		<button id="saveQuery">Save</button>
+		<button id="exitButton">Exit</button><hr>
+		<b>Time Bin:</b><textarea id="binInterval" rows="1" cols="3">50</textarea>
+		<button id="getSummary">Summary</button><hr>
+		<b>De-Lemmatizer:</b>
+		<textarea id="sentence_in" style="width:100%; height:20%;">Input sentence from CS2 here.</textarea>
+		<br>
+		<button id="show_sentence" onClick="show()">Show</button>
+		<textarea id="divSymbol" rows="1" cols="2">=</textarea>
+		<hr>
+		<b>Mini-Terminal:</b>
+		<textarea id="myTerminal" style="width:100%; height:20%; white-space:nowrap;"></textarea>
+		<br>
+		<br><br>
+		
+	</div>
+</div>
+<div id="prose" class="window">
+	<textarea id="proseShow" style="position:absolute; width:90%; height:80%; left:5%; top:5%"></textarea>
+	<button id="closeProse" style="position:absolute; left:5%; top:85%">Close</button>
+</div>
+<div id="summary" class="window">
+	<textarea id="summaryShow" style="position:absolute; width:90%; height:80%; left:5%; top:5%"></textarea>
+	<button id="closeSummary" style="position:absolute; left:5%; top:85%">Close</button>
+</div>
+<div id="exitMenu" class="window" style="border: 1px solid black; background-color: red;">
+	<button id="exit" style="position:absolute; width:90%; height:40%; left:5%; top:5%">Exit</button><br><br>
+	<button id="closeExit" style="position:absolute; width:90%; height:40%; left:5%; top:50%">Cancel</button>
+</div>
+</body>
+<script>
+
+var output;
+var termContent = "Report\n";
+
+function start() {
+	updateTerminal("Starting\n");
+}
+
+function updateTerminal(newLine) {
+	termContent = termContent + "[ " + Date().split(" ")[4] + " ] " + newLine;
+	document.getElementById("myTerminal").value = termContent;
+	document.getElementById("myTerminal").scrollTop = document.getElementById("myTerminal").scrollHeight;
+}
+
+function runScriptPar(option, input) {
+	return fetch('/cgi-bin/' + option, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'text/plain'
+		},
+		body: input
+	})
+	.then(response => response.text())
+	.then(text => {
+		output = text;
+		updateTerminal(output);
+	});
+}
+
+$('#saveQuery').click(function() {
+	updateTerminal("Saving query results");
+	runScriptPar("save.sh").then(saveResults);
+});
+
+function saveResults() {
+	saveTextAsFile(output, "queryResults.html");
+}
+
+$('#search').click(function() {
+	updateTerminal("Query running (may take several minutes)\n");
+	runScriptPar("search.sh", document.getElementById("query").value).then(updateResults);
+});
+
+function updateResults() {
+	document.getElementById("cs2_out").src = "cs.html";
+	updateTerminal("Results Ready\n");
+}
+
+$('#getSummary').click(function() {
+	updateTerminal("Reading in summary\n");
+	runScriptPar("summary.sh").then(openSummary);
+});
+
+function openSummary() {
+	var lowBin = Number(0);
+	var highBin = Number(0);
+	var intervalBin = document.getElementById("binInterval").value;
+	var startIn = output;
+	var summaryOut = startIn.replaceAll(" ", "");
+	summaryOut = summaryOut.replaceAll("/", "_");
+	summaryOut = summaryOut.replaceAll("	", "_");
+	var outArray = summaryOut.split("\n");
+	outArray.pop();
+	var length = outArray.length;
+	for (let i = 0; i < length; i++) {
+		var line = outArray[i];
+		var lineArray = line.split("_");
+		var lineLength = lineArray.length;
+		var lineOut = lineArray[0] + "_" + lineArray[lineLength-3] + "_" + lineArray[lineLength-2] + "_" + lineArray[lineLength-1];
+		lineOut = lineOut.split("_");
+		outArray[i] = lineOut;
+	}
+	var top = outArray[length-1][0];
+	top = top / intervalBin;
+	top = Math.round(top);
+	top = top + 1;
+	console.log("Top: " + top);
+	var truebottom = "0";
+	var foundbottom = "no";
+	for (let find = 0; find < top; find++) {
+		var check = find * intervalBin;
+		check = Number(check);
+		if (check > outArray[0][0] && foundbottom == "no") {
+			truebottom = check - intervalBin;
+			foundbottom = "yes";
+		}
+	}
+	console.log("Bottom: " + truebottom);
+	var truetop = "0";
+	var foundtop = "no";
+	for (let find = 0; find < top + 1; find++) {
+		var check = find * intervalBin;
+		check = Number(check);
+		if (check > outArray[outArray.length - 1][0] && foundtop == "no") {
+			truetop = check - intervalBin;
+			foundtop = "yes";
+		}
+	}
+	var bins = (truetop - truebottom) / intervalBin;
+	bins = bins + 1;	
+	var dataArray = [];
+	for (let i = 0; i < bins; i++) {
+		dataArray[i] = [];
+		for (let j = 0; j < 6; j++) {
+			dataArray[i][j] = Number(0);
+		}
+		var binStart = Number((i * intervalBin) + truebottom);
+		binStart = Number(binStart);
+		dataArray[i][0] = binStart;
+		intervalBin = Number(intervalBin);
+		var binStop = binStart + intervalBin - 1;
+		dataArray[i][1] = binStop;
+		console.log("Array: " + dataArray[i]);
+	}
+	for (let g = 0; g < dataArray.length; g++) {
+		var minYear = dataArray[g][0];
+		var maxYear = dataArray[g][1];
+		for (let i = 0; i < outArray.length; i++) {
+			var year = outArray[i][0];
+			if (year >= minYear
+			&& year <= maxYear) {
+				dataArray[g][2] = dataArray[g][2] + Number(outArray[i][1]);
+				dataArray[g][3] = dataArray[g][3] + Number(outArray[i][2]);
+				dataArray[g][4] = dataArray[g][4] + Number(outArray[i][3]);
+			}
+		}
+	}
+	for (let p = 0; p < dataArray.length; p++) {
+		dataArray[p][5] = dataArray[p][2] / dataArray[p][4];
+		dataArray[p][5] = dataArray[p][5] * 100;
+	}
+	var stringOut = "BinMin	BinMax	Hits	Tokens	Total	(%)Hits/Tokens\n";
+	for (let i = 0; i < dataArray.length; i++) {
+		for (let j = 0; j < 6; j++) {
+			stringOut = stringOut + dataArray[i][j];
+			if (j < 5) {
+				stringOut = stringOut + "	";
+			}
+		}
+		stringOut = stringOut + "\n";
+	}
+	document.getElementById("summaryShow").value = stringOut;
+	document.getElementById("summary").style.display = "block";
+	updateTerminal("Showing summary\n");
+}
+
+$('#closeSummary').click(function() {
+	document.getElementById("summary").style.display = "none";
+});
+
+function show() {
+	var divider = document.getElementById("divSymbol").value;
+	divider = new RegExp(divider + ".*");
+	var sentence = document.getElementById("sentence_in").value;
+	sentence = sentence.replaceAll(/\n/g," ");
+	sentenceArray = sentence.split(" ");
+	for (let i = 0; i < sentenceArray.length; i++) {
+		sentenceArray[i] = sentenceArray[i].replace(divider,"");
+		sentenceArray[i] = sentenceArray[i] + " ";
+    	}
+	var sentenceOut = "";
+	for (let i = 0; i < sentenceArray.length; i++) {
+		sentenceOut = sentenceOut + sentenceArray[i];
+	}
+	sentenceOut = sentenceOut.replaceAll("PARENL", "(");
+	sentenceOut = sentenceOut.replaceAll("PARENR", ")");
+	document.getElementById("proseShow").value = sentenceOut;
+	document.getElementById("prose").style.display = "block";
+	updateTerminal("Showing prose\n");
+}
+
+$('#closeProse').click(function() {
+	document.getElementById("prose").style.display = "none";
+});
+
+function saveTextAsFile(textToWrite, toSaveAs) {
+	var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'}); 
+	var downloadLink = document.createElement("a");
+	downloadLink.download = toSaveAs;
+	downloadLink.innerHTML = "Download File";
+	if (window.webkitURL != null) {
+		// for Chrome
+		downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+	} else {
+		// for Firefox
+		downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+		downloadLink.onclick = destroyClickedElement;
+		downloadLink.style.display = "none";
+		document.body.appendChild(downloadLink);
+	}
+	downloadLink.click();
+}
+
+$('#exitButton').click(function() {
+	document.getElementById("exitMenu").style.display = "block";
+});
+
+$('#exit').click(function() {
+	document.getElementById("exitMenu").style.display = "none";
+	updateTerminal("Killing server (scripts no longer available)\n");
+	runScriptPar("exit.sh").then(updateTerminal("Exit browser window.\n"));
+});
+
+$('#closeExit').click(function() {
+	document.getElementById("exitMenu").style.display = "none";
+});
+
+
+</script>
+</html>
