@@ -1,0 +1,9 @@
+cd ..
+mkdir "corpus"
+mkdir "corpus/_omit_from_search"
+cd files/cgi-bin
+chmod +x search.sh
+chmod +x save.sh
+chmod +x exit.sh
+chmod +x summary.sh
+echo "Setup complete."
