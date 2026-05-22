@@ -1,0 +1,9 @@
+#!/bin/bash
+
+python3 -m http.server --cgi 5678 > /dev/null 2>&1 &
+SERVER_PID=$!
+
+echo "Current Server ID: $SERVER_PID"
+echo "$SERVER_PID" > serverID.tmp
+open -a "Google Chrome" http://localhost:5678/browser_PACS.html
+#powershell.exe start chrome http://localhost:5678/browser_PACS.html
