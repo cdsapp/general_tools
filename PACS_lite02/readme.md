@@ -51,6 +51,11 @@ c.	Specify the file extensions to search
 
  -	Save and close search
 
+d.	Set up PACS_lite
+
+ - Open Terminal and change directory to PACS_lite02/files
+ - enter `bash setup`. If successful, you'll see "Setup complete."
+
 ###	Running PACS_lite
 a.	Double-click PACS_lite.app. This creates a server and opens PACS_lite in Chrome. Depending on your system, it may attempt to open the file in Chrome before the server is created. If it doesn’t load after a few seconds, refresh the page.
 
