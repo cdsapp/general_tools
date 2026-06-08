@@ -217,7 +217,7 @@ function openSummary() {
 		dataArray[p][5] = dataArray[p][2] / dataArray[p][4];
 		dataArray[p][5] = dataArray[p][5] * 100;
 	}
-	var stringOut = "BinMin	BinMax	Hits	Tokens	Total	(%)Hits/Tokens\n";
+	var stringOut = "BinMin	BinMax	Hits	Tokens	Total	(%)Hits/Total\n";
 	for (let i = 0; i < dataArray.length; i++) {
 		for (let j = 0; j < 6; j++) {
 			stringOut = stringOut + dataArray[i][j];
