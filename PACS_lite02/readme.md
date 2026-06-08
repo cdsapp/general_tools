@@ -31,7 +31,7 @@ b.	Specify the directory in PACS_lite.app (or see last bullet below)
 
  -	Select PACS_lite.app
 
- - Change the directory (highlighted in this image) to your directory:
+ - Change the directory (highlighted in this image) to your directory (your directory my require a different path, e.g. `~/Desktop...`:
    
 <img width="148" height="88" alt="image" src="https://github.com/user-attachments/assets/7a1847c7-25b3-40c2-bef0-451c13bf05a9" />
 
